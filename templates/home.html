@@ -12,8 +12,12 @@
     <header>
       <div class="head flex">
         <div class="API">API Recuperação</div>
-        <a href="{{ url_for('login') }}" id="loginBtn" class="btn login">Login</a>
-        <a href="{{ url_for('register') }}" id="signupBtn" class="btn cadastro">Cadastro</a>
+        <a href="{{ url_for('login') }}" id="loginBtn" class="btn login"
+          >Login</a
+        >
+        <a href="{{ url_for('register') }}" id="signupBtn" class="btn cadastro"
+          >Cadastro</a
+        >
       </div>
     </header>
 
@@ -38,60 +42,6 @@
             required
           />
           <button type="submit">Entrar</button>
-
-          {% with messages = get_flashed_messages(with_categories=true) %} {% if
-          messages %}
-          <ul class="flashes">
-            {% for category, message in messages %}
-            <li class="{{ category }}">{{ message }}</li>
-            {% endfor %}
-          </ul>
-          {% endif %} {% endwith %}
-        </form>
-      </div>
-
-      <!-- Formulário de Cadastro -->
-      <div id="signupForm" class="form-container" style="display: none">
-        <form class="grid" action="/register" method="post">
-          <label for="email">E-mail</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            placeholder="Email"
-            required
-          />
-
-          <label for="password">Senha</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Senha"
-            required
-          />
-
-          <label for="confirmPassword">Confirme a senha</label>
-          <input
-            type="password"
-            id="confirmPassword"
-            name="confirmPassword"
-            placeholder="Confirme sua Senha"
-            required
-          />
-
-          <div id="passwordMessage"></div>
-
-          <label for="token">Token</label>
-          <input
-            type="text"
-            id="token"
-            name="token"
-            placeholder="Digite o Token de cadastro"
-            required
-          />
-
-          <button type="submit">Cadastrar</button>
 
           {% with messages = get_flashed_messages(with_categories=true) %} {% if
           messages %}

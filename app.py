@@ -66,7 +66,6 @@ def receive_webhook():
         return jsonify({'error': 'Request must be JSON'}), 400
     
     try:
-        # Extrair os dados da requisição
         nome = request.json.get('nome')
         email = request.json.get('email')
         status = request.json.get('status')
@@ -83,7 +82,6 @@ def receive_webhook():
         
         print(acao)
 
-        # Criar uma nova instância de Webhook
         new_webhook = Webhook(
             nome=nome,
             email=email,
@@ -94,7 +92,6 @@ def receive_webhook():
             acao = acao
         )
 
-        # Adicionar ao banco de dados e commitar
         db.session.add(new_webhook)
         db.session.commit()
         print(request.json, "JSON recebido com SUCESSO")
@@ -123,7 +120,7 @@ def login():
         print("Email:", email, "Password:", password)
         if user and bcrypt.check_password_hash(user.senha, password):
             login_user(user)
-            return redirect(url_for('user', user_id=user.id))  # Redireciona para a página do usuário
+            return redirect(url_for('user', user_id=user.id))  
         else:
             flash('Login inválido, verifique suas informações', 'error')
             return redirect(url_for('home'))
@@ -145,7 +142,7 @@ def register():
             flash('Já existe uma conta com esse e-mail.', 'error')
             return redirect(url_for('register'))
         
-        if token != correct_token:  # Substitua pelo seu token real
+        if token != correct_token: 
             flash('Token inválido, não foi possível realizar o cadastro.', 'error')
             return redirect(url_for('register'))
 
@@ -171,7 +168,7 @@ def user(user_id):
         if request.method == 'POST':
             nome = request.form.get('nome')
             email = request.form.get('email')
-            status = request.form.get('status')  # Isso permite múltiplas seleções
+            status = request.form.get('status')  
 
             if not nome and not email and not status:
                 resultados = Webhook.query.all() 
@@ -189,9 +186,9 @@ def user(user_id):
                     resultados = query.all()
         else:
             resultados = Webhook.query.all() 
-        return render_template("usuario.html", user_name=primeiro_nome, webhooks=resultados)  # Renderiza a página do usuário
+        return render_template("usuario.html", user_name=primeiro_nome, webhooks=resultados) 
     else:
-        return redirect(url_for('login'))  # Redireciona para login se não for o usuário correto
+        return redirect(url_for('login')) 
 
 
 @app.route('/logout')
@@ -203,6 +200,6 @@ def logout():
 
 
 if __name__ == '__main__':
-    init_db()  # Chama a função para criar o banco de dados
+    init_db() 
     app.run(debug=True)
 
