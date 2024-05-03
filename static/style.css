@@ -1,0 +1,133 @@
+* {
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+    }
+
+html {
+    font-size: 62.5%;
+    font-family: sans-serif;
+    margin: 1rem 5rem;
+    }
+
+
+.flex{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &.col {
+        flex-flow: column;
+    }
+}
+
+.grid {
+    display:grid;
+    &.col {
+        grid-auto-flow: column;
+    }
+}
+
+body {
+    grid-template-rows: 1fr 3fr;
+    & header{
+        background-color: rgb(8, 8, 117);
+        color: white;
+        border-radius: 0.5rem;
+        font-size: 2.4rem;
+        font-weight: 200;
+        max-height: max-content;
+        overflow: hidden;
+
+        & .head{
+            justify-content: start;
+            align-items: center;
+
+            & .API{
+                margin-right: 3rem;
+                padding: 2rem;
+            }
+
+            & .btn{
+                height: 50%;
+                padding: 2.4rem 1rem;
+                font-style: none;
+                font-size: 1.8rem;
+                background-color: inherit;
+                border: none;
+                color:inherit;
+                cursor: pointer;
+                transition: background-color 0.2s, color 0.15s;
+
+                &:hover, &:active, &:focus{
+                    background-color: rgb(21, 21, 212);
+                }
+
+                &:link, &:visited{
+                    text-decoration: none;
+                }
+            }
+        }
+    }
+
+    & main{
+        font-size: 1.8rem;
+        color:black;
+        
+
+        & .form-container {
+            background-color: white;
+            margin: 2.2rem 0;
+            
+            & form {
+                position:fixed;
+                justify-content: start;
+                align-items: start;
+                gap: 0.2rem;
+
+                & input{
+                    margin-top: 0.4rem;
+                    margin-bottom: 2rem;
+                    border-radius: 0.4rem;
+                    height: 3rem;
+                    width: 82.5rem;
+                    padding:0.3rem;
+                }
+
+                & button{
+                    margin-top: 1.8rem;
+                    border-radius: 0.6rem;
+                    width: 15rem;
+                    height: 5rem;
+                    font-size: 1.8rem;
+                    font-weight: bold;
+                    cursor: pointer;
+                    transition: background-color 0.15s, color 0.15s;
+
+                    &:hover, &:active{
+                        background-color: rgb(21, 21, 212);
+                        color:white;
+                    }
+
+                    &:link, &:visited{
+                        font-style: none;
+                    }
+                }
+                
+                & .flashes{
+                    color:red;
+                    font-size: 1.6rem;
+                    margin-top: 2rem;
+
+                    & .success {
+                        color:green;
+                        font-weight: bold;
+                    }
+
+                }
+            }
+        }
+    }
+}
+
+

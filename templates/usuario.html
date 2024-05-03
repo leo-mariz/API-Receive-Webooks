@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Page</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style_user.css') }}"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="cabecalho flex">
+        <div>Bem vindo de volta, {{ user_name }}!</div>
+        <div class="containerBtn">
+          <a href="{{ url_for('logout') }}" class="btn logout" id="logoutBtn"
+            >Sair</a
+          >
+        </div>
+      </div>
+    </header>
+    <main class="grid col">
+      <section class="filtros">
+        <div class="buscas grid">
+          <form
+            method="POST"
+            action="{{ url_for('user', user_id=current_user.id) }}"
+          >
+            <div class="titulo">
+              Para realizar a busca, preencha pelo menos um dos campos abaixo.
+            </div>
+            <div class="titulo">
+              Para visualizar todos os webhooks, basta deixar os campos vazios e
+              clicar em "Buscar".
+            </div>
+            <label for="nome">Nome:</label>
+            <input
+              type="text"
+              id="nome"
+              name="nome"
+              placeholder="Busque por nome"
+            />
+
+            <label for="email">Email:</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Busque por email"
+            />
+
+            <label for="status">Status:</label>
+            <input
+              type="text"
+              id="status"
+              name="status"
+              placeholder="Busque por Status"
+            />
+
+            <button type="submit">Buscar</button>
+          </form>
+        </div>
+      </section>
+      <section class="tabela-secao">
+        <div class="container">
+          <table class="tabela">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Valor</th>
+                <th>Forma de Pagamento</th>
+                <th>Parcelas</th>
+                <th>Ação Tomada</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% if webhooks %} {% for webhook in webhooks %}
+              <tr>
+                <td>{{ webhook.nome }}</td>
+                <td>{{ webhook.email }}</td>
+                <td>{{ webhook.status }}</td>
+                <td>{{ webhook.valor }}</td>
+                <td>{{ webhook.forma_pagamento }}</td>
+                <td>{{ webhook.parcelas }}</td>
+                <td>{{ webhook.acao }}</td>
+              </tr>
+              {% endfor %} {% else %}
+              <tr>
+                <td colspan="7">Nenhum dado encontrado.</td>
+              </tr>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
