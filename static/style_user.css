@@ -69,7 +69,7 @@ body {
 
     & main {
 
-        grid-template-columns: 1fr 2.2fr;
+        grid-template-columns: 1fr 2.4fr;
 
         & .filtros{
             & .buscas{
@@ -112,32 +112,38 @@ body {
             margin: 1.8rem 0;
 
             & .container {
-                overflow: hidden; /* Esconde qualquer conteúdo que exceda o raio da borda */
-                border-radius: 8px; /* Raio da borda desejado */
-                height: 100%;
+                display: block;
+                overflow: scroll;
+                overflow-x: hidden;
+                border-radius: 8px; 
+                max-height: 50rem;
                 width: 100%;
                 border: 0.1rem solid grey;
                 box-shadow: 1rem;
 
                 & .tabela {
-                    width: 100%; /* Faz a tabela ocupar toda a largura do contêiner */
-                    height: 100%;
-                    border-collapse: collapse; /* Mantém as bordas das células juntas */
+                    width: 100%; 
+                    max-height: 50rem;
+                    border-collapse: collapse; 
                     table-layout: fixed;
                     font-size: 1rem;
-                    text-align: center;
                     background-color: #ffffff18;
                     padding: 0.35rem;
                     
                     & td, & th {
-                        border: 1px solid grey; /* Estilo de borda para as células */
+                        border: 1px solid grey; 
+                        text-align: center;
                     }
 
-                    & thead th {
+                    & thead {
+                        width: 100%;
+
+                        & th {
                         font-size: 1.32rem;
                         font-weight: bold;
                         background-color: grey;
                         color: white;
+                        }
                     }
 
                     & tbody th {
