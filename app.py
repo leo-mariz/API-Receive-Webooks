@@ -61,6 +61,7 @@ def load_user(user_id):
 
 @app.route('/webhook', methods=['POST'])
 def receive_webhook():
+    print(request.headers)
     if not request.json:
         return jsonify({'error': 'Request must be JSON'}), 400
     
@@ -96,10 +97,12 @@ def receive_webhook():
         # Adicionar ao banco de dados e commitar
         db.session.add(new_webhook)
         db.session.commit()
-
+        print(request.json, "JSON recebido com SUCESSO")
         return jsonify({'message': 'Webhook received and stored successfully'}), 201
 
     except Exception as e:
+        print(request.json, "ERRO JSON")
+        app.logger.error(f"Erro ao processar webhook: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
 
