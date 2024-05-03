@@ -61,7 +61,7 @@ def load_user(user_id):
 
 @app.route('/webhook', methods=['POST'])
 def receive_webhook():
-    print(request.headers)
+    print("Raw request data:", request.data)
     if not request.json:
         return jsonify({'error': 'Request must be JSON'}), 400
     
@@ -140,19 +140,19 @@ def register():
         password = request.form["password"]
         confirm_password = request.form["confirmPassword"]
 
-        if password!=confirm_password:
-            flash('As senhas não coincidem', 'error')
+        existing_user = Usuario.query.filter_by(email=email).first()
+        if existing_user:
+            flash('Já existe uma conta com esse e-mail.', 'error')
             return redirect(url_for('register'))
         
         if token != correct_token:  # Substitua pelo seu token real
             flash('Token inválido, não foi possível realizar o cadastro.', 'error')
             return redirect(url_for('register'))
-        
-        existing_user = Usuario.query.filter_by(email=email).first()
-        if existing_user:
-            flash('Já existe uma conta com esse e-mail.', 'error')
-            return redirect(url_for('register'))
 
+        if password!=confirm_password:
+            flash('As senhas não coincidem', 'error')
+            return redirect(url_for('register'))
+        
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
         new_user = Usuario(nome=nome, email=email, senha=hashed_password)
         db.session.add(new_user)
