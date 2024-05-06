@@ -62,6 +62,7 @@ def load_user(user_id):
 @app.route('/webhook', methods=['POST'])
 def receive_webhook():
     print("Raw request data:", request.data)
+    print("Headers recebidos:", dict(request.headers))
     if not request.json:
         return jsonify({'error': 'Request must be JSON'}), 400
     
