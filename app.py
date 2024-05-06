@@ -65,8 +65,8 @@ def receive_webhook():
     headers = request.headers
     raw_data = request.data
     content_type = headers['Content-Type']
-    print("Raw request data: ", raw_data)
-    print("Raw request data: ", headers)
+    print("RAW DATA: ", raw_data)
+    print("HEADERS: ", headers)
     print("Content-Type: ",content_type)
     if not request.json:
         try:
