@@ -3,6 +3,7 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user, UserMixin
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, Integer, String, Numeric
+import json
 
 
 app = Flask(__name__)
@@ -63,9 +64,10 @@ def load_user(user_id):
 def receive_webhook():
     print("Raw request data:", request.data)
     print("Headers recebidos:", dict(request.headers))
+    raw_data = request.data.decode('utf-8')
     if not request.json:
         try:
-            data = json.loads(request.data.decode('utf-8'))
+            data = json.loads(raw_data)
         except json.JSONDecodeError:
             return jsonify({'error': 'Invalid JSON'}), 400
     else:
