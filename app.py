@@ -3,6 +3,9 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user, UserMixin
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, Integer, String, Numeric
+from sqlalchemy.sql import expression
+from sqlalchemy.types import DateTime
+from datetime import datetime
 import json
 
 
@@ -48,6 +51,7 @@ class Webhook(db.Model):
     forma_pagamento = Column(String(120), nullable=False)
     parcelas = Column(Integer, nullable=False)
     acao = Column(String(120), nullable=False)
+    data_string = Column(String(120), nullable=False)
 
 def init_db():
     with app.app_context():
@@ -79,6 +83,7 @@ def receive_webhook():
         valor = data.get('valor')
         forma_pagamento = data.get('forma_pagamento')
         parcelas = data.get('parcelas')
+        time = datetime.now().strftime('%d/%m/%Y %H:%M:%S')
 
         if status == 'aprovado':
             acao = "Acesso liberado, mensagem de boas vindas enviada!"
@@ -96,7 +101,8 @@ def receive_webhook():
             valor=valor,
             forma_pagamento=forma_pagamento,
             parcelas=parcelas,
-            acao = acao
+            acao = acao,
+            data_string = time
         )
 
         db.session.add(new_webhook)
@@ -180,7 +186,8 @@ def user(user_id):
             if not nome and not email and not status:
                 resultados = Webhook.query.all() 
             else:
-                query = Webhook.query
+                query = Webhook.query.all()
+                query = sorted(query, key=lambda x: datetime.strptime(x.data_string, '%d/%m/%Y %H:%M:%S'), reverse=True)
                 if nome:
                     query = query.filter(Webhook.nome.ilike(f'%{nome}%'))
                 if email:

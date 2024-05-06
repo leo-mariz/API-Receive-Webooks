@@ -69,15 +69,19 @@ body {
 
     & main {
 
-        grid-template-columns: 1fr 2.4fr;
+        grid-template-rows: 2fr 6fr;
 
         & .filtros{
             & .buscas{
+                grid-template-rows: 1fr 1fr;
                 margin: 2rem 0;
                 font-size:1.8rem;
-                width: 25%;
+                width: 100%;
+                gap: 1rem;
 
-                & .titulo{
+                & .titulos{
+                    gap: 5.5rem;
+                    grid-template-columns: 1fr 1fr;
                     margin-bottom: 2rem;
                     font-weight: bold;
                 }
@@ -89,7 +93,7 @@ body {
                     margin-bottom: 1.5rem;
                 }
                 & button {
-                    margin-top: 1.8rem;
+                    margin-left: 5rem;
                     border-radius: 0.6rem;
                     width: 12rem;
                     height:4rem;
@@ -125,7 +129,7 @@ body {
                     width: 100%; 
                     max-height: 50rem;
                     border-collapse: collapse; 
-                    table-layout: fixed;
+                    table-layout: auto;
                     font-size: 1.4rem;
                     background-color: #ffffff18;
                     padding: 0.35rem;
@@ -180,20 +184,34 @@ body {
     }
 }
 
+
+            
 @media (max-width: 768px) {
-    main {
-        grid-template-areas: "a a a"
-                             "b b b";
-        
-        & .filtros{
-            grid-area: a;
-            & .buscas {
-                font-size: 1.4rem;
-            }
-        }
-        
-        & .tabela-secao {
-            grid-area: b;
-        }
+    .grid {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .tabela-secao, .filtros {
+        width: 100%;
+    }
+
+    .buscas, .titulos, .formulario {
+        width: auto; 
+    }
+
+    .formulario {
+       
+        display: flex;
+        flex-direction: column;
+    }
+
+    input, label {
+        width: 100%; 
+        margin-bottom: 1rem; 
+    }
+
+    button {
+        width: auto; 
     }
 }
