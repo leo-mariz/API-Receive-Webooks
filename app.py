@@ -187,7 +187,7 @@ def user(user_id):
                 resultados = Webhook.query.all() 
             else:
                 query = Webhook.query.all()
-                query = sorted(query, key=lambda x: datetime.strptime(x.data_string, '%d/%m/%Y %H:%M:%S'), reverse=True)
+                query = sorted(query, key=lambda x: datetime.strptime(x.data_string, '%d/%m/%Y %H:%M:%S'), reverse=False)
                 if nome:
                     query = query.filter(Webhook.nome.ilike(f'%{nome}%'))
                 if email:
