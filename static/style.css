@@ -133,9 +133,3 @@ body {
     }
 }
 
-
-@media (max-width: 768px) {
-    header{
-        padding-right: 1rem;
-    }
-}

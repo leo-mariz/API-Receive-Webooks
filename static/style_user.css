@@ -125,7 +125,7 @@ body {
                     width: 100%; 
                     max-height: 50rem;
                     border-collapse: collapse; 
-                    table-layout: auto;
+                    table-layout: fixed;
                     font-size: 1.4rem;
                     background-color: #ffffff18;
                     padding: 0.35rem;
@@ -134,6 +134,28 @@ body {
                         border: 1px solid grey; 
                         text-align: center;
                         padding: 0.35rem;
+                    }
+
+                    & th:nth-child(1), & td:nth-child(1) {
+                        width: 1fr;
+                    }
+                    & th:nth-child(2), & td:nth-child(2) {
+                        width: 2fr;
+                    }
+                    & th:nth-child(3), & td:nth-child(3) {
+                        width: 1fr;
+                    }
+                    & th:nth-child(4), & td:nth-child(4) {
+                        width: 0.5fr;
+                    }
+                    & th:nth-child(5), & td:nth-child(5) {
+                        width: 1fr;
+                    }
+                    & th:nth-child(6), & td:nth-child(6) {
+                        width: 0.5fr;
+                    }
+                    & th:nth-child(7), & td:nth-child(7) {
+                        width: 3fr;
                     }
 
                     & thead {
@@ -160,8 +182,8 @@ body {
 
 @media (max-width: 768px) {
     main {
-        grid-template-areas: "a a"
-                             "b b";
+        grid-template-areas: "a a a"
+                             "b b b";
         
         & .filtros{
             grid-area: a;
