@@ -72,15 +72,15 @@ def receive_webhook():
     print("RAW DATA: ", raw_data)
     print("HEADERS: ", headers)
     if not request.json:
+        print("NÂO É REQUEST.JSON")
         try:
             data = json.loads(raw_data)
         except json.JSONDecodeError:
             print("NÃO LEU PARA JSON")
             return jsonify({'error': 'Invalid JSON'}), 400
     else:
+        print("RECONHECEU REQUEST.JSON")
         data = request.json
-
-    print(data)
 
     try:
         nome = data.get('nome')
