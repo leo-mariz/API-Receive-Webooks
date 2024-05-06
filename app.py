@@ -64,10 +64,11 @@ def load_user(user_id):
 def receive_webhook():
     headers = request.headers
     raw_data = request.data
-    content_type = headers['Content-Type']
+    try:
+        content_type = headers['Content-Type']
+        print("Content-Type: ",content_type)
     print("RAW DATA: ", raw_data)
     print("HEADERS: ", headers)
-    print("Content-Type: ",content_type)
     if not request.json:
         try:
             data = request.form
