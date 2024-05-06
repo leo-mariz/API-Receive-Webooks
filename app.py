@@ -64,15 +64,22 @@ def receive_webhook():
     print("Raw request data:", request.data)
     print("Headers recebidos:", dict(request.headers))
     if not request.json:
-        return jsonify({'error': 'Request must be JSON'}), 400
-    
+        try:
+            data = json.loads(request.data.decode('utf-8'))
+        except json.JSONDecodeError:
+            return jsonify({'error': 'Invalid JSON'}), 400
+    else:
+        data = request.json
+
+    print(data)
+
     try:
-        nome = request.json.get('nome')
-        email = request.json.get('email')
-        status = request.json.get('status')
-        valor = request.json.get('valor')
-        forma_pagamento = request.json.get('forma_pagamento')
-        parcelas = request.json.get('parcelas')
+        nome =data.get('nome')
+        email = data.get('email')
+        status = data.get('status')
+        valor = data.get('valor')
+        forma_pagamento = data.get('forma_pagamento')
+        parcelas = data.get('parcelas')
 
         if status == 'aprovado':
             acao = "Acesso liberado, mensagem de boas vindas enviada!"
