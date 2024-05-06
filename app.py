@@ -59,7 +59,6 @@ def init_db():
         db.create_all()
 
 
-
 @login_manager.user_loader
 def load_user(user_id):
     return Usuario.query.get(int(user_id))
@@ -181,29 +180,20 @@ def register():
 def user(user_id):
     if current_user.id == user_id:
         primeiro_nome = current_user.nome.split(' ')[0]
-        query = Webhook.query
+        query = Webhook.query.order_by(Webhook.data_real.desc())
         if request.method == 'POST':
             nome = request.form.get('nome')
             email = request.form.get('email')
             status = request.form.get('status')  
 
-            if not nome and not email and not status:
-                resultados = Webhook.query.order_by(Webhook.data_real.desc()).all() 
-            else:
-                query = Webhook.query.all()
-                query = sorted(query, key=lambda x: datetime.strptime(x.data_string, '%d/%m/%Y %H:%M:%S'), reverse=False)
-                if nome:
-                    query = query.filter(Webhook.nome.ilike(f'%{nome}%'))
-                if email:
-                    query = query.filter(Webhook.email.ilike(f'%{email}%'))
-                if status:
-                    query = query.filter(Webhook.status.ilike(f'%{status}%'))
+            if nome:
+                query = query.filter(Webhook.nome.ilike(f'%{nome}%'))
+            if email:
+                query = query.filter(Webhook.email.ilike(f'%{email}%'))
+            if status:
+                query = query.filter(Webhook.status.ilike(f'%{status}%'))
 
-                resultados = Webhook.query.order_by(Webhook.data_real.desc()).all()
-                if not resultados:
-                    resultados = Webhook.query.order_by(Webhook.data_real.desc()).all()
-        else:
-            resultados = Webhook.query.order_by(Webhook.data_real.desc()).all() 
+        resultados = query.all()
         return render_template("usuario.html", user_name=primeiro_nome, webhooks=resultados) 
     else:
         return redirect(url_for('login')) 
