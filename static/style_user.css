@@ -114,7 +114,7 @@ body {
             & .container {
                 display: block;
                 overflow: scroll;
-                overflow-x: hidden;
+                overflow-x: auto;
                 border-radius: 8px; 
                 max-height: 50rem;
                 width: 100%;
@@ -125,21 +125,22 @@ body {
                     width: 100%; 
                     max-height: 50rem;
                     border-collapse: collapse; 
-                    table-layout: fixed;
-                    font-size: 1rem;
+                    table-layout: auto;
+                    font-size: 1.4rem;
                     background-color: #ffffff18;
                     padding: 0.35rem;
                     
                     & td, & th {
                         border: 1px solid grey; 
                         text-align: center;
+                        padding: 0.35rem;
                     }
 
                     & thead {
                         width: 100%;
 
                         & th {
-                        font-size: 1.32rem;
+                        font-size: 1.4rem;
                         font-weight: bold;
                         background-color: grey;
                         color: white;
@@ -147,12 +148,30 @@ body {
                     }
 
                     & tbody th {
-                        font-size: 1.32rem;
+                        font-size: 1.6rem;
                         font-weight: bold;
                         transform: translateY(0.15rem);
                     }
                 }
             }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    main {
+        grid-template-areas: "a a"
+                             "b b";
+        
+        & .filtros{
+            grid-area: a;
+            & .buscas {
+                font-size: 1.4rem;
+            }
+        }
+        
+        & .tabela-secao {
+            grid-area: b;
         }
     }
 }
