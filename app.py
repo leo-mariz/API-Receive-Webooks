@@ -52,6 +52,7 @@ class Webhook(db.Model):
     parcelas = Column(Integer, nullable=False)
     acao = Column(String(120), nullable=False)
     data_string = Column(String(120), nullable=False)
+    data_real = db.Column(db.DateTime, nullable=False)
 
 def init_db():
     with app.app_context():
@@ -83,7 +84,8 @@ def receive_webhook():
         valor = data.get('valor')
         forma_pagamento = data.get('forma_pagamento')
         parcelas = data.get('parcelas')
-        time = datetime.now().strftime('%d/%m/%Y %H:%M:%S')
+        data_real = datetime.now()
+        time = data_real.strftime('%d/%m/%Y %H:%M:%S')
 
         if status == 'aprovado':
             acao = "Acesso liberado, mensagem de boas vindas enviada!"
@@ -102,7 +104,8 @@ def receive_webhook():
             forma_pagamento=forma_pagamento,
             parcelas=parcelas,
             acao = acao,
-            data_string = time
+            data_string = time,
+            data_real = data_real
         )
 
         db.session.add(new_webhook)
@@ -178,13 +181,14 @@ def register():
 def user(user_id):
     if current_user.id == user_id:
         primeiro_nome = current_user.nome.split(' ')[0]
+        query = Webhook.query
         if request.method == 'POST':
             nome = request.form.get('nome')
             email = request.form.get('email')
             status = request.form.get('status')  
 
             if not nome and not email and not status:
-                resultados = Webhook.query.all() 
+                resultados = Webhook.query.order_by(Webhook.data_real.desc()).all() 
             else:
                 query = Webhook.query.all()
                 query = sorted(query, key=lambda x: datetime.strptime(x.data_string, '%d/%m/%Y %H:%M:%S'), reverse=False)
@@ -195,11 +199,11 @@ def user(user_id):
                 if status:
                     query = query.filter(Webhook.status.ilike(f'%{status}%'))
 
-                resultados = query.all()
+                resultados = Webhook.query.order_by(Webhook.data_real.desc()).all()
                 if not resultados:
-                    resultados = query.all()
+                    resultados = Webhook.query.order_by(Webhook.data_real.desc()).all()
         else:
-            resultados = Webhook.query.all() 
+            resultados = Webhook.query.order_by(Webhook.data_real.desc()).all() 
         return render_template("usuario.html", user_name=primeiro_nome, webhooks=resultados) 
     else:
         return redirect(url_for('login')) 
