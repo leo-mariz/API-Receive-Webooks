@@ -101,7 +101,7 @@ def receive_webhook():
 
         db.session.add(new_webhook)
         db.session.commit()
-        print(request.json, "JSON recebido com SUCESSO")
+        print(data, "JSON convertido e armazenado com SUCESSO")
         return jsonify({'message': 'Webhook received and stored successfully'}), 201
 
     except Exception as e:
