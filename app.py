@@ -63,25 +63,15 @@ def load_user(user_id):
 @app.route('/webhook', methods=['POST'])
 def receive_webhook():
     headers = request.headers
+    print(headers)
     raw_data = request.data
+    print(raw_data)
     try:
-        content_type = headers['Content-Type']
-        print("Content-Type: ",content_type)
+        data = json.loads(raw_data)
+        print(data)
     except:
-        print("Content-Type VAZIO")
-    print("RAW DATA: ", raw_data)
-    print("HEADERS: ", headers)
-    if not request.json:
-        print("NÂO É REQUEST.JSON")
-        try:
-            data = json.loads(raw_data)
-        except json.JSONDecodeError:
-            print("NÃO LEU PARA JSON")
-            return jsonify({'error': 'Invalid JSON'}), 400
-    else:
-        print("RECONHECEU REQUEST.JSON")
-        data = request.json
-
+        print("NÃO TRANSFORMANDO PARA JSON")
+        return "ERRO 1"
     try:
         nome = data.get('nome')
         email = data.get('email')
@@ -115,7 +105,7 @@ def receive_webhook():
         return jsonify({'message': 'Webhook received and stored successfully'}), 201
 
     except Exception as e:
-        print(request.json, "ERRO JSON")
+        print("ERRO!!")
         app.logger.error(f"Erro ao processar webhook: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
