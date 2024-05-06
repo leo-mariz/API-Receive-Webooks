@@ -62,12 +62,15 @@ def load_user(user_id):
 
 @app.route('/webhook', methods=['POST'])
 def receive_webhook():
-    print("Raw request data:", request.data)
-    print("Headers recebidos:", dict(request.headers))
-    raw_data = request.data.decode('utf-8')
+    headers = request.headers
+    raw_data = request.data
+    content_type = headers['Content-Type']
+    print("Raw request data: ", raw_data)
+    print("Raw request data: ", headers)
+    print("Content-Type: ",content_type)
     if not request.json:
         try:
-            data = json.loads(raw_data)
+            data = request.form
         except json.JSONDecodeError:
             return jsonify({'error': 'Invalid JSON'}), 400
     else:
@@ -76,7 +79,7 @@ def receive_webhook():
     print(data)
 
     try:
-        nome =data.get('nome')
+        nome = data.get('nome')
         email = data.get('email')
         status = data.get('status')
         valor = data.get('valor')
